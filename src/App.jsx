@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Header from './componetes/Header'
 import Modal from './componetes/Modal';
+import ListadosGasto from './componetes/ListadosGasto';
 
 import { generarId } from './Helpers';
 
@@ -25,6 +26,7 @@ function App() {
 
   const guardarGasto = gasto => {
     gasto.id = generarId();
+    gasto.fecha = Date.now();
     setGastos([...gastos, gasto])
 
     setAnimarModal(false)
@@ -37,8 +39,9 @@ function App() {
  
 
   return (
-    <div>
-        <Header 
+    <div className={modal ? 'fijar' : ''}>
+      <Header 
+          gastos={gastos}
           presupuesto = {presupuesto}
           isValidPresupuesto={isValidPresupuesto}
           setPresupuesto = {setPresupuesto}
@@ -47,15 +50,22 @@ function App() {
       {/* //si la condicion es verdadera se ejecutar el codigo */}
     
       {isValidPresupuesto && (
+        <>
+          <main>
+            <ListadosGasto
+              gastos={gastos}
+            
+            />
+          </main>
         <div className="nuevo-gasto">
         <img
           src={IconoNuevoGasto}
             alt='Incono nuevo gasto'
             onClick={handleNuevoGasto}
-          
         />
 
-      </div>
+          </div>
+          </>
         
       )}
 
