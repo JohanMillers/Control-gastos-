@@ -17,12 +17,17 @@ const Modal = ({
     const [nombre, setNombre] = useState('');
     const [cantidad, SetCantidad] = useState('');
     const [categoria, setCategoria] = useState('');
+    const [fecha, setfecha] = useState('')
+    const [id, setId] = useState('')
+
 
     useEffect(() => {
         if (Object.keys(gastoEditar).length > 0) {
             setNombre(gastoEditar.nombre)
             SetCantidad(gastoEditar.cantidad)
             setCategoria(gastoEditar.categoria)
+            setId(gastoEditar.id)
+            setfecha(gastoEditar.fecha)
           }
           
         
@@ -51,7 +56,7 @@ const Modal = ({
             return
         }
 
-        guardarGasto({nombre, cantidad, categoria})
+        guardarGasto({nombre, cantidad, categoria, id, fecha})
 
     }
 
@@ -69,7 +74,7 @@ const Modal = ({
           <form
               onSubmit={handleSubmit}
               className={`formulario ${animarModal ? "animar" : 'cerrar'}`}>
-              <legend>Nuevo Gasto</legend>
+              <legend>{ gastoEditar.nombre ? 'Editar Gasto' : 'Nuevo Gasto'}</legend>
               {mensaje && <Mensaje tipo="error">{ mensaje}</Mensaje>}
               <div className="campo">
                   <label htmlFor="nombre">Nombre Gasto</label>
@@ -111,7 +116,7 @@ const Modal = ({
 
               <input
                   type="submit"
-                  value="Añadir gasto"
+                  value={ gastoEditar.nombre ? 'Guardar Cambios' : 'Añadir Gasto'}
 
               
               />

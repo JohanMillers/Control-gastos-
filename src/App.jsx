@@ -43,16 +43,27 @@ function App() {
   }
 
   const guardarGasto = gasto => {
-    gasto.id = generarId();
-    gasto.fecha = Date.now();
-    setGastos([...gastos, gasto])
+
+    if (gasto.id) {
+      //Actualizar
+      const gastoActualizados = gastos.map(gastoState => gastoState.id === gasto.id ? gasto : gastoState)
+      setGastos(gastoActualizados)
+    } else {
+      gasto.id = generarId();
+      gasto.fecha = Date.now();
+      setGastos([...gastos, gasto])
+    }
 
     setAnimarModal(false)
 
         setTimeout(() => {
             setModal(false)
-        }, 500
-        );
+        }, 500);
+  }
+
+  const eliminarGasto = id => {
+    const gastoActualizado = gastos.filter( gasto => gasto.id !== id)
+    setGastos(gastoActualizado)
   }
  
 
@@ -73,6 +84,7 @@ function App() {
             <ListadosGasto
               gastos={gastos}
               SetGastoEditar={SetGastoEditar}
+              eliminarGasto={eliminarGasto}
             
             />
           </main>
