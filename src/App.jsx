@@ -13,7 +13,9 @@ function App() {
 
   const [gastos, setGastos] = useState([]);
 
-  const [presupuesto, setPresupuesto] = useState(0);
+  const [presupuesto, setPresupuesto] = useState(
+    Number(localStorage.getItem('presupuesto'))?? 0
+  );
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false)
@@ -22,13 +24,27 @@ function App() {
   useEffect(() => {
     if (Object.keys(gastoEditar).length > 0) {
       setModal(true)
-  
       setTimeout(() => {
         setAnimarModal(true);
       }, 500);
     }
     
-  },[gastoEditar])
+  }, [gastoEditar])
+  
+  useEffect(() => {
+    localStorage.setItem('presupuesto', presupuesto ?? 0)
+    
+  }, [presupuesto])
+  
+  useEffect(() => {
+
+    const presupuestoLS = Number(localStorage.getItem('presupuesto')) ?? 0;
+
+    if (presupuestoLS > 0) {
+      setIsValidPresupuesto(true)
+    }
+    
+  },[])
 
 
   
